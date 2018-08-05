@@ -29,3 +29,4 @@ Below we see heatmaps (average square occupation over the game), averaged over a
 ## CNN LSTM (work in progress)
 Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my network. The (channelx8x8) maps of each time step fist undergo 3 convolutional layers of kernel size 3x3 without padding, reducing the size to (filter x 4 x 4), are then flattened and fed into LSTM neurons, followed by a Dense (fully connected layer). The currently best result is 80% accuracy, see below. It is still overfitting, although dropout is applied. Will add more data soon (currently 60k games).
 
+![alt text](https://user-images.githubusercontent.com/33765868/34654656-19171952-f3ff-11e7-9d1b-2f7c1ff8333b.png)
