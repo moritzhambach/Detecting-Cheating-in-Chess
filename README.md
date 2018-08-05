@@ -14,7 +14,7 @@ a type called Long-Short-Term Memory (LSTM). But let's start from the beginning:
 
 ## Getting the data
 
-millions of chess games are easily available online, and are usually labeled whether a computer or human played each side. I dowloaded close to 1 million games from https://www.ficsgames.org/ . The data comes in pgn format, which I first convert into JSON (using https://github.com/Assios/pgn-to-json ) and then read into pandas datadrame for preprocessing. The moves themselves are converted into board states, meaning (channel x 8 x 8) arrays of 1s and 0s, where a 1 means a piece exists at this position, and the channel determines the piece type (white knight, black Queen, etc). As there are 6 pieces per color (pawns, knights, bishops, rooks, Queen, King), we have 12 channels.
+millions of chess games are easily available online, and are usually labeled whether a computer or human played each side. I dowloaded close to 1 million games from https://www.ficsgames.org/ . The data comes in pgn format, which I first convert into JSON (using https://github.com/Assios/pgn-to-json ) and then read into pandas dataframe for preprocessing. The moves themselves are converted into board states (with help of https://github.com/niklasf/python-chess), meaning (channel x 8 x 8) arrays of 1s and 0s, where a 1 means a piece exists at this position, and the channel determines the piece type (white knight, black Queen, etc). As there are 6 pieces per color (pawns, knights, bishops, rooks, Queen, King), we have 12 channels. The board state per move is then stacked onto each other to create a tensor of shape (time, channel, 8, 8 ) for each game.
 
 ## Preprocessing, visualisation as heatmaps
 Computers win more often than humans, so if we want to detect computers we should make sure that the algorithm isn't just a "win detector". For this reason I balance the data so that
@@ -26,6 +26,6 @@ Also, I select games with game lenght of 15-50 moves (30-100 half moves/ply) and
 Below we see heatmaps (average square occupation over the game), averaged over a thousand games each. There seems to be slight differences in black human vs black computer heatmaps, but in first baseline attempts wasn't able to get more than 60% test accuracy when using only heatmaps as training data for classification. More heatmaps can be seen in the data exploration notebook.
 
 
-## CNN LSTM
-
+## CNN LSTM (work in progress)
+Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my network. The (channelx8x8) maps of each time step fist undergo 3 convolutional layers of kernel size 3x3 without padding, reducing the size to (filter x 4 x 4), are then flattened and fed into LSTM neurons, followed by a Dense (fully connected layer). The currently best result is 80% accuracy, see below. It is still overfitting, although dropout is applied. Will add more data soon (currently 60k games).
 
