@@ -31,7 +31,7 @@ black pawns, black is computer:
 
 black pawns, black is human:
 
-![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
+![alt text](https://user-images.githubusercontent.com/33765868/43685394-8e200774-98b2-11e8-88b6-e95bfd5b7ade.png)
 
 
 ## CNN LSTM (work in progress)
