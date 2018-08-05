@@ -26,9 +26,11 @@ Also, I select games with game lenght of 15-50 moves (30-100 half moves/ply) and
 Below we see heatmaps (average square occupation over the game), averaged over a thousand games each. There seems to be slight differences in black human vs black computer heatmaps, but in first baseline attempts wasn't able to get more than 60% test accuracy when using only heatmaps as training data for classification. More heatmaps can be seen in the data exploration notebook.
 
 black pawns, black is computer:
+
 ![alt text](https://user-images.githubusercontent.com/33765868/43685360-05665d3e-98b2-11e8-80d3-7586e53cdc1e.png)
 
 black pawns, black is human:
+
 ![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
 
 
