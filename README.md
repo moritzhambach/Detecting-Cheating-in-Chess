@@ -38,36 +38,3 @@ black pawns, black is human:
 Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my network. The (channelx8x8) maps of each time step fist undergo 3 convolutional layers of kernel size 3x3 without padding, reducing the size to (filter x 2 x 2), are then flattened and fed into LSTM neurons, followed by a Dense (fully connected layer). The currently best result is 80% accuracy, see below. It is still overfitting, although dropout is applied. Will add more data soon (currently 60k games).
 
 ![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
-
-model summary:
-
-Layer (type)                 Output Shape              Param    
-=================================================================
-time_distributed_93 (TimeDis (None, 30, 20, 6, 6)      2180      
-_________________________________________________________________
-batch_normalization_70 (Batc (None, 30, 20, 6, 6)      24        
-_________________________________________________________________
-time_distributed_94 (TimeDis (None, 30, 40, 4, 4)      7240      
-_________________________________________________________________
-batch_normalization_71 (Batc (None, 30, 40, 4, 4)      16        
-_________________________________________________________________
-time_distributed_95 (TimeDis (None, 30, 80, 2, 2)      28880     
-_________________________________________________________________
-batch_normalization_72 (Batc (None, 30, 80, 2, 2)      8         
-_________________________________________________________________
-time_distributed_96 (TimeDis (None, 30, 320)           0         
-_________________________________________________________________
-lstm_24 (LSTM)               (None, 50)                74200     
-_________________________________________________________________
-dropout_47 (Dropout)         (None, 50)                0         
-_________________________________________________________________
-dense_47 (Dense)             (None, 50)                2550      
-_________________________________________________________________
-dropout_48 (Dropout)         (None, 50)                0         
-_________________________________________________________________
-dense_48 (Dense)             (None, 2)                 102       
-=================================================================
-Total params: 115,200
-Trainable params: 115,176
-Non-trainable params: 24
-_________________________________________________________________
