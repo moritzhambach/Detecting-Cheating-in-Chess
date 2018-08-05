@@ -41,7 +41,7 @@ Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my netwo
 
 model summary:
 
-Layer (type)                 Output Shape              Param #   
+Layer (type)                 Output Shape              Param    
 =================================================================
 time_distributed_93 (TimeDis (None, 30, 20, 6, 6)      2180      
 _________________________________________________________________
