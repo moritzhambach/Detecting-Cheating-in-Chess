@@ -1,0 +1,17 @@
+md5: fa5b3045e46a30cbe71d2172e46bf68b
+cmd: python python_code/preprocess.py --input-paths data/raw_data/json/2018/join_data.json,data/raw_data/json/2019/join_data.json
+  --output-path data/preprocessed/games.parquet
+wdir: ..
+deps:
+- md5: ad7c74ed22bcb7a7971c991e7b01b566
+  path: data/raw_data/json/2018/join_data.json
+- md5: a864f64041a27837697a0f862e99e26d
+  path: data/raw_data/json/2019/join_data.json
+- md5: a99b09ddde7fd08b7ac72a4c0ab9da83
+  path: python_code/preprocess.py
+outs:
+- md5: b5af07c4cd48925055fc3944c9fe4b97
+  path: data/preprocessed/games.parquet
+  cache: true
+  metric: false
+  persist: false
