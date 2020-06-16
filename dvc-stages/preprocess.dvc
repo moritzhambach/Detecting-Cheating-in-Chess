@@ -1,16 +1,16 @@
-md5: fa5b3045e46a30cbe71d2172e46bf68b
+md5: 44ca797a32fd26b81e30828981148bef
 cmd: python python_code/preprocess.py --input-paths data/raw_data/json/2018/join_data.json,data/raw_data/json/2019/join_data.json
-  --output-path data/preprocessed/games.parquet
+  --output-path data/preprocessed/games.parquet --plymin 30 --plymax 100
 wdir: ..
 deps:
 - md5: ad7c74ed22bcb7a7971c991e7b01b566
   path: data/raw_data/json/2018/join_data.json
 - md5: a864f64041a27837697a0f862e99e26d
   path: data/raw_data/json/2019/join_data.json
-- md5: a99b09ddde7fd08b7ac72a4c0ab9da83
+- md5: dfc52be87fb4526e9a39626a1891d1aa
   path: python_code/preprocess.py
 outs:
-- md5: b5af07c4cd48925055fc3944c9fe4b97
+- md5: f839e1fa311e0013d48d9b3e4475d946
   path: data/preprocessed/games.parquet
   cache: true
   metric: false
