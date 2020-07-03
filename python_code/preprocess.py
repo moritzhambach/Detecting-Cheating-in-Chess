@@ -15,48 +15,47 @@ def loadData(file_list):
     return df
 
 
-def prefilterGames(df, plymin, plymax):
-    df.loc[df["WhiteIsComp"].isnull(), "WhiteIsComp"] = 0.0
-    df.loc[df["WhiteIsComp"] == "Yes", "WhiteIsComp"] = 1.0
-    df.loc[df["BlackIsComp"].isnull(), "BlackIsComp"] = 0.0
-    df.loc[df["BlackIsComp"] == "Yes", "BlackIsComp"] = 1.0
+def balanceEngineRatio(df, human_color):
+    if human_color == "White":
+        df_opponentIsComp = df[df.BlackIsComp == 1.0]
+        df_opponentIsHuman = df[df.BlackIsComp == 0.0]
+    elif human_color == "Black":
+        df_opponentIsComp = df[df.WhiteIsComp == 1.0]
+        df_opponentIsHuman = df[df.WhiteIsComp == 0.0]
+    n_min = min(len(df_opponentIsComp), len(df_opponentIsHuman))
+    df = pd.concat([df_opponentIsComp[:n_min], df_opponentIsHuman[:n_min]])
+    df = df.sample(frac=1)  # reshuffle
+    df = df.reset_index(drop=True)
+    return df
 
-    df = df[(df.PlyCount > plymin) & (df.PlyCount < plymax)]  # restrict game lengths
-    df = df[(df.Result == "1-0") | (df.Result == "0-1")]  # no draws
+
+def prefilterGames(df, plymin, plymax, human_color):
+    """we want games where the human player (with color human_color) lost, and the opponent is 50/50 human or computer"""
+    df = df[
+        (df.PlyCount > plymin) & (df.PlyCount < plymax)
+    ]  # restrict game lengths. First moves are irrelevant as they can be memorized.
     df = df[
         (df.TimeControl == "300+0")
         | (df.TimeControl == "600+0")
         | (df.TimeControl == "900+0")
-    ]  # choose timecontrol in sec
-    df = df[df["WhiteIsComp"] == 0.0]  # only take human players as white,for now
-    return df
+    ]  # choose timecontrol in sec. Very short games are weird (and hard to use engines on due to computation time)
 
+    df.loc[
+        df["WhiteIsComp"].isnull(), "WhiteIsComp"
+    ] = 0.0  # field is null for human vs human games
+    df.loc[df["WhiteIsComp"] == "Yes", "WhiteIsComp"] = 1.0
+    df.loc[df["BlackIsComp"].isnull(), "BlackIsComp"] = 0.0
+    df.loc[df["BlackIsComp"] == "Yes", "BlackIsComp"] = 1.0
 
-def balanceWinrates(df):
-    # balance black player label and win rate (so the algorithm doesn't just detect game winners)
-    dfBlackcomputer_winning = df[(df.BlackIsComp == 1.0) & (df.Result == "0-1")]
-    dfBlackcomputer_losing = df[(df.BlackIsComp == 1.0) & (df.Result == "1-0")]
-    dfBlackhuman_winning = df[(df.BlackIsComp == 0.0) & (df.Result == "0-1")]
-    dfBlackhuman_losing = df[(df.BlackIsComp == 0.0) & (df.Result == "1-0")]
-    n_min = min(
-        [
-            len(dfBlackcomputer_winning),
-            len(dfBlackcomputer_losing),
-            len(dfBlackhuman_winning),
-            len(dfBlackhuman_losing),
-        ]
-    )
-    df = pd.concat(
-        [
-            dfBlackcomputer_winning[:n_min],
-            dfBlackcomputer_losing[:n_min],
-            dfBlackhuman_winning[:n_min],
-            dfBlackhuman_losing[:n_min],
-        ]
-    )
-    df = df.sample(frac=1)  # reshuffle
-    df = df.reset_index(drop=True)
-
+    if human_color == "White":
+        df = df[df["WhiteIsComp"] == 0.0]
+        df = df[
+            df.Result == "0-1"
+        ]  # only interested in games where the human player lost
+    elif human_color == "Black":
+        df = df[df["BlackIsComp"] == 0.0]
+        df = df[df.Result == "1-0"]
+    df = balanceEngineRatio(df, human_color)
     return df
 
 
@@ -65,18 +64,19 @@ def balanceWinrates(df):
     "--input-paths", help="filenames of input files, separated by comma", required=True
 )
 @click.option("--output-path", help="where to save result (as parquet)", required=True)
+@click.option(
+    "--human-color", help="Black or White, what was the human playing", required=True
+)
 @click.option("--plymin", help="min number of half moves", required=True, type=int)
 @click.option("--plymax", help="max number of half moves", required=True, type=int)
-def main(input_paths, output_path, plymin, plymax):
+def main(input_paths, output_path, plymin, plymax, human_color):
     file_list = input_paths.split(",")
     n_files = len(file_list)
     LOGGER.info("found {} files".format(n_files))
     df = loadData(file_list)
-    df = prefilterGames(df, plymin, plymax)
-    df = df.sample(frac=1)  # shuffle data
-    df = balanceWinrates(df)
+    df = prefilterGames(df, plymin, plymax, human_color)
 
-    df = df[["BlackIsComp", "WhiteIsComp", "moves"]]
+    df = df[["BlackIsComp", "moves"]]
     LOGGER.info("number of games after preprocessing: {}".format(df.shape[0]))
     df.to_parquet(output_path)
 
