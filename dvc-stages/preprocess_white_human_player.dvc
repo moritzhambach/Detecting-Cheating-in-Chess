@@ -1,6 +1,6 @@
-md5: aa302411636d8009ebec9f469e774e3d
+md5: a40679203d9bd04aba27341e8b09edfe
 cmd: python python_code/preprocess.py --input-paths data/raw_data/json/2018/join_data.json,data/raw_data/json/2019/join_data.json
-  --output-path data/preprocessed/games_white_human.parquet --plymin 30 --plymax 100
+  --output-path data/preprocessed/games_white_human.parquet --plymin 40 --plymax 100
   --human-color White
 wdir: ..
 deps:
@@ -11,7 +11,7 @@ deps:
 - md5: 55ca92cdbc657b575f9d7be51073c107
   path: python_code/preprocess.py
 outs:
-- md5: 5c8bbc6e0bd80bf4524e2f070a1844cc
+- md5: 97ed91157646803941937ad0f8fc1d4c
   path: data/preprocessed/games_white_human.parquet
   cache: true
   metric: false
