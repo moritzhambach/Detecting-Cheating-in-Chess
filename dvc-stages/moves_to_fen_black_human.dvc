@@ -1,0 +1,16 @@
+md5: c31a908e4b3dfdad894d74d2aa26d6d4
+cmd: python python_code/moves_to_fen.py --input-path data/preprocessed/games_black_human.parquet
+  --output-path data/preprocessed/fen_black_human.npy.npz --max-ply-to-consider 40
+  --min-ply-to-consider 20
+wdir: ..
+deps:
+- md5: 657f1645f1a828fa47f23f718cffdf47
+  path: data/preprocessed/games_black_human.parquet
+- md5: 5e6d04bda1006fc3a885b2c8bf9e1436
+  path: python_code/moves_to_fen.py
+outs:
+- md5: 983777a398f605c50f592ed8b3e538e4
+  path: data/preprocessed/fen_black_human.npy.npz
+  cache: true
+  metric: false
+  persist: false

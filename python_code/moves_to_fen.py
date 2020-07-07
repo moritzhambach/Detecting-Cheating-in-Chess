@@ -41,8 +41,8 @@ def moves_to_fen(moves):
         fenArray = np.stack(fenlist, axis=0)
         # only return positions of the middle game!
         return fenArray
-    except IndexError:
-        print("can not create fen")
+    except Exception:
+        LOGGER.info("can not create fen")
 
 
 def getFenPerChannel(input_array, min_ply_to_consider, max_ply_to_consider):
@@ -58,7 +58,7 @@ def getFenPerChannel(input_array, min_ply_to_consider, max_ply_to_consider):
     for k, piece in enumerate(pieceList):
         mask = input_array == piece
         res[:, k, :, :] = mask
-    return res
+    return res.astype(int)
 
 
 @click.command()
@@ -85,8 +85,9 @@ def main(input_path, output_path, min_ply_to_consider, max_ply_to_consider):
             fen, min_ply_to_consider, max_ply_to_consider
         )
         resList.append(fen_per_channel)
-    res = np.stack(resList, axis=0)
-    np.save(output_path, res)
+    res = np.stack(resList, axis=0).astype(int)
+    LOGGER.info(f"output shape: {res.shape}")
+    np.savez_compressed(output_path, res)
 
 
 if __name__ == "__main__":

@@ -2,3 +2,5 @@
 /games_black_human.parquet
 /games_white_human.parquet
 /fen_white_human.npy
+/fen_black_human.npy.npz
+/fen_white_human.npy.npz
