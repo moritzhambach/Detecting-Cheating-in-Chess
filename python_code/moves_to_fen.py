@@ -3,6 +3,7 @@ import click
 import logging
 import numpy as np
 import pgn_to_fen
+from tqdm import tqdm
 
 logging.basicConfig(level=logging.INFO,)
 
@@ -76,18 +77,31 @@ def getFenPerChannel(input_array, min_ply_to_consider, max_ply_to_consider):
     help="will drop everything before this many half moves (because it could be memorized)",
 )
 @click.option("--output-path", help="where to save result", required=True)
-def main(input_path, output_path, min_ply_to_consider, max_ply_to_consider):
+@click.option("--output-path-labels", help="where to save labels", required=True)
+def main(
+    input_path,
+    output_path,
+    output_path_labels,
+    min_ply_to_consider,
+    max_ply_to_consider,
+):
     df = pd.read_parquet(input_path)
     resList = []
-    for m in df["moves"]:
-        fen = moves_to_fen(m)
+    labelList = []
+    for move, label in tqdm(zip(df["moves"], df["opponentIsComp"])):
+        fen = moves_to_fen(move)
         fen_per_channel = getFenPerChannel(
             fen, min_ply_to_consider, max_ply_to_consider
         )
-        resList.append(fen_per_channel)
+        if np.count_nonzero(fen_per_channel) > 0:
+            resList.append(fen_per_channel)
+            labelList.append(label)
     res = np.stack(resList, axis=0).astype(int)
-    LOGGER.info(f"output shape: {res.shape}")
+    labels = np.array(labelList).astype(int)
+
+    LOGGER.info(f"output shape: {res.shape}, labels shape: {labels.shape}")
     np.savez_compressed(output_path, res)
+    np.savez_compressed(output_path_labels, labels)
 
 
 if __name__ == "__main__":

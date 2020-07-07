@@ -15,15 +15,11 @@ def loadData(file_list):
     return df
 
 
-def balanceEngineRatio(df, human_color):
-    if human_color == "White":
-        df_opponentIsComp = df[df.BlackIsComp == 1.0]
-        df_opponentIsHuman = df[df.BlackIsComp == 0.0]
-    elif human_color == "Black":
-        df_opponentIsComp = df[df.WhiteIsComp == 1.0]
-        df_opponentIsHuman = df[df.WhiteIsComp == 0.0]
-    n_min = min(len(df_opponentIsComp), len(df_opponentIsHuman))
-    df = pd.concat([df_opponentIsComp[:n_min], df_opponentIsHuman[:n_min]])
+def balanceEngineRatio(df):
+    df_comp = df[df.opponentIsComp == 1.0]
+    df_human = df[df.opponentIsComp == 0.0]
+    n_min = min(len(df_comp), len(df_human))
+    df = pd.concat([df_comp[:n_min], df_human[:n_min]])
     df = df.sample(frac=1)  # reshuffle
     df = df.reset_index(drop=True)
     return df
@@ -38,6 +34,9 @@ def prefilterGames(df, plymin, plymax, human_color):
         (df.TimeControl == "300+0")
         | (df.TimeControl == "600+0")
         | (df.TimeControl == "900+0")
+        | (df.TimeControl == "900+5")
+        | (df.TimeControl == "900+10")
+        | (df.TimeControl == "1200+0")
     ]  # choose timecontrol in sec. Very short games are weird (and hard to use engines on due to computation time)
 
     df.loc[
@@ -52,10 +51,14 @@ def prefilterGames(df, plymin, plymax, human_color):
         df = df[
             df.Result == "0-1"
         ]  # only interested in games where the human player lost
+        df = df.rename(columns={"BlackIsComp": "opponentIsComp"})
     elif human_color == "Black":
         df = df[df["BlackIsComp"] == 0.0]
         df = df[df.Result == "1-0"]
-    df = balanceEngineRatio(df, human_color)
+        df = df.rename(columns={"WhiteIsComp": "opponentIsComp"})
+
+    df = df[["opponentIsComp", "moves"]]
+    df = balanceEngineRatio(df)
     return df
 
 
@@ -76,7 +79,6 @@ def main(input_paths, output_path, plymin, plymax, human_color):
     df = loadData(file_list)
     df = prefilterGames(df, plymin, plymax, human_color)
 
-    df = df[["BlackIsComp", "moves"]]
     LOGGER.info("number of games after preprocessing: {}".format(df.shape[0]))
     df.to_parquet(output_path)
 

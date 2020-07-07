@@ -1,16 +1,21 @@
-md5: 1de9f707d364671cd8ad7a19be619d93
+md5: 7cfbcb3935d05af2bcabe413409591ea
 cmd: python python_code/moves_to_fen.py --input-path data/preprocessed/games_white_human.parquet
-  --output-path data/preprocessed/fen_white_human.npy.npz --max-ply-to-consider 40
-  --min-ply-to-consider 20
+  --output-path data/preprocessed/fen_white_human.npy.npz --output-path-labels data/preprocessed/fen_white_human_labels.npy.npz
+  --max-ply-to-consider 40 --min-ply-to-consider 20
 wdir: ..
 deps:
-- md5: 8e217ba41b08d52f8693026fbe1140b8
+- md5: 9d076415624301e1c4f102fd34a02558
   path: data/preprocessed/games_white_human.parquet
-- md5: 5e6d04bda1006fc3a885b2c8bf9e1436
+- md5: 7152a6f983b10afa4a27c27d1c39cf7a
   path: python_code/moves_to_fen.py
 outs:
-- md5: b1ac8951c4dd2961e15e7cb70eefce01
+- md5: 09767c365a70d0d524443849199829ad
   path: data/preprocessed/fen_white_human.npy.npz
+  cache: true
+  metric: false
+  persist: false
+- md5: 35df5b941ca923f80737f95ef5bf491b
+  path: data/preprocessed/fen_white_human_labels.npy.npz
   cache: true
   metric: false
   persist: false

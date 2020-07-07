@@ -1,0 +1,15 @@
+md5: ef42031768f33ea438625128465e7dfe
+cmd: python python_code/pgn_to_json.py data/raw_data/2016/ data/raw_data/json/2016/
+  100000 join
+wdir: ..
+deps:
+- md5: 06a30e133f24c1d0e8dea0432941a098.dir
+  path: data/raw_data/2016
+- md5: 583414a943fe99284387f249113f00e6
+  path: python_code/pgn_to_json.py
+outs:
+- md5: fe375e5805a974805c31c58a1b62682d
+  path: data/raw_data/json/2016/join_data.json
+  cache: true
+  metric: false
+  persist: false
