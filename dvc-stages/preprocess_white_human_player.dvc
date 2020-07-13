@@ -1,4 +1,4 @@
-md5: 4427f27e5fe4d96d0fce81cf45f10ea9
+md5: 96c707034de78956855ab644b1cfb339
 cmd: python python_code/preprocess.py --input-paths data/raw_data/json/2017/join_data.json,data/raw_data/json/2018/join_data.json,data/raw_data/json/2019/join_data.json,data/raw_data/json/2016/join_data.json
   --output-path data/preprocessed/games_white_human.parquet --plymin 40 --plymax 100
   --human-color White
@@ -10,12 +10,12 @@ deps:
   path: data/raw_data/json/2017/join_data.json
 - md5: ad7c74ed22bcb7a7971c991e7b01b566
   path: data/raw_data/json/2018/join_data.json
-- md5: a864f64041a27837697a0f862e99e26d
+- md5: 6528fe344a049f0e695cde35d7b43aba
   path: data/raw_data/json/2019/join_data.json
 - md5: 2f38a140ac7d799be47770c769916fcd
   path: python_code/preprocess.py
 outs:
-- md5: 9d076415624301e1c4f102fd34a02558
+- md5: e5dab3b4eb65e21bbbc6887a4ac050fa
   path: data/preprocessed/games_white_human.parquet
   cache: true
   metric: false
