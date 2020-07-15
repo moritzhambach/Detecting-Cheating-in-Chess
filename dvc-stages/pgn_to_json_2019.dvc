@@ -1,11 +1,11 @@
-md5: ecb92f5d911717b64e4001b0a2fed713
+md5: de5f0913a2bd1fdf27e3dc83633f9dab
 cmd: python python_code/pgn_to_json.py data/raw_data/2019/ data/raw_data/json/2019/
   200000 join
 wdir: ..
 deps:
 - md5: 3f0b579225c4e29a3ac852949630cce0.dir
   path: data/raw_data/2019
-- md5: 583414a943fe99284387f249113f00e6
+- md5: 8fb0a3a2f55cab1d4c96432badc31a1c
   path: python_code/pgn_to_json.py
 outs:
 - md5: 6528fe344a049f0e695cde35d7b43aba
