@@ -1,0 +1,18 @@
+md5: a22a5c785ee19b5debfae0682ed07e11
+cmd: python python_code/eval_get_moves.py --input-path data/raw_data/json/evaluation/eval.json
+  --output-path data/preprocessed/eval.parquet --params-path data/configs/preprocess_params.json
+  --human-color Black
+wdir: ..
+deps:
+- md5: 347779d4ba63928372810946fa3372e5
+  path: data/raw_data/json/evaluation/eval.json
+- md5: aae093f374e9d5c456207005c2685400
+  path: data/configs/preprocess_params.json
+- md5: ba03459f6d8a711c934e399ca6b962cd
+  path: python_code/eval_get_moves.py
+outs:
+- md5: 5919c2938496a258d436052aae4b512c
+  path: data/preprocessed/eval.parquet
+  cache: true
+  metric: false
+  persist: false

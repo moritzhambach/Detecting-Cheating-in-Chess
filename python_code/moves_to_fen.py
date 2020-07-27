@@ -5,6 +5,7 @@ import numpy as np
 import pgn_to_fen
 import chess
 from tqdm import tqdm
+import json
 
 logging.basicConfig(level=logging.INFO,)
 
@@ -126,14 +127,7 @@ def getFenPerChannel(input_array):
     "--input-path", help="expects parquet file", required=True, type=click.Path()
 )
 @click.option(
-    "--max-ply-to-consider",
-    type=int,
-    help="will drop everything after this many half moves (to keep a consistent length)",
-)
-@click.option(
-    "--min-ply-to-consider",
-    type=int,
-    help="will drop everything before this many half moves (because it could be memorized)",
+    "--params-path", help="configuration params",
 )
 @click.option("--output-path", help="where to save result", required=True)
 @click.option("--output-path-labels", help="where to save labels", required=True)
@@ -141,14 +135,14 @@ def getFenPerChannel(input_array):
     "--output-path-attacks", help="where to save attack tensors", required=True
 )
 def main(
-    input_path,
-    output_path,
-    output_path_labels,
-    output_path_attacks,
-    min_ply_to_consider,
-    max_ply_to_consider,
+    input_path, output_path, output_path_labels, output_path_attacks, params_path,
 ):
     df = pd.read_parquet(input_path)
+    with open(params_path) as f:
+        params = json.load(f)
+    min_ply_to_consider = params["plymin"]
+    max_ply_to_consider = params["plymax"]
+
     resList = []
     labelList = []
     attacksList = []
