@@ -37,44 +37,6 @@ def checkParameters(df, human_color, params):
         LOGGER.info("check 4 passed")
 
 
-'''
-def prefilterGames(df, plymin, plymax, human_color):
-    """we want games where the human player (with color human_color) lost, and the opponent is 50/50 human or computer"""
-    df = df[
-        (df.PlyCount > plymin) & (df.PlyCount < plymax)
-    ]  # restrict game lengths. First moves are irrelevant as they can be memorized.
-    df = df[
-        (df.TimeControl == "300+0")
-        | (df.TimeControl == "600+0")
-        | (df.TimeControl == "900+0")
-        | (df.TimeControl == "900+5")
-        | (df.TimeControl == "900+10")
-        | (df.TimeControl == "1200+0")
-    ]  # choose timecontrol in sec. Very short games are weird (and hard to use engines on due to computation time)
-
-    df.loc[
-        df["WhiteIsComp"].isnull(), "WhiteIsComp"
-    ] = 0.0  # field is null for human vs human games
-    df.loc[df["WhiteIsComp"] == "Yes", "WhiteIsComp"] = 1.0
-    df.loc[df["BlackIsComp"].isnull(), "BlackIsComp"] = 0.0
-    df.loc[df["BlackIsComp"] == "Yes", "BlackIsComp"] = 1.0
-
-    if human_color == "White":
-        df = df[df["WhiteIsComp"] == 0.0]
-        df = df[
-            df.Result == "0-1"
-        ]  # only interested in games where the human player lost
-        df = df.rename(columns={"BlackIsComp": "opponentIsComp"})
-    elif human_color == "Black":
-        df = df[df["BlackIsComp"] == 0.0]
-        df = df[df.Result == "1-0"]
-        df = df.rename(columns={"WhiteIsComp": "opponentIsComp"})
-
-    df = df[["opponentIsComp", "moves"]]
-    return df
-'''
-
-
 @click.command()
 @click.option("--input-path", help="filename of single input file", required=True)
 @click.option("--output-path", help="where to save result (as parquet)", required=True)
@@ -89,7 +51,7 @@ def main(input_path, output_path, human_color, params_path):
         params = json.load(f)
     LOGGER.info(params)
     checkParameters(df, human_color, params)
-    df["opponentIsComp"] = -1  # columns is expected by next stage
+    df["opponentIsComp"] = -1  # column is expected by next stage
     df[["moves", "opponentIsComp"]].to_parquet(output_path)
 
 

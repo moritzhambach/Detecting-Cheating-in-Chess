@@ -1,6 +1,7 @@
 import pandas as pd
 import click
 import logging
+import json
 
 logging.basicConfig(level=logging.INFO,)
 
@@ -25,19 +26,16 @@ def balanceEngineRatio(df):
     return df
 
 
-def prefilterGames(df, plymin, plymax, human_color):
+def prefilterGames(df, params, human_color):
     """we want games where the human player (with color human_color) lost, and the opponent is 50/50 human or computer"""
+    min_game_length = params["plymax"] # need at least as many moves as will be used in algorithm
+    max_game_length = params["max_game_length"]
     df = df[
-        (df.PlyCount > plymin) & (df.PlyCount < plymax)
+        (df.PlyCount > min_game_length) & (df.PlyCount < max_game_length)
     ]  # restrict game lengths. First moves are irrelevant as they can be memorized.
-    df = df[
-        (df.TimeControl == "300+0")
-        | (df.TimeControl == "600+0")
-        | (df.TimeControl == "900+0")
-        | (df.TimeControl == "900+5")
-        | (df.TimeControl == "900+10")
-        | (df.TimeControl == "1200+0")
-    ]  # choose timecontrol in sec. Very short games are weird (and hard to use engines on due to computation time)
+    
+    # choose timecontrol. Very short games are weird (and hard to use engines on due to computation time)
+    df = df[df["TimeControl"].isin(params["timecontrols"])]
 
     df.loc[
         df["WhiteIsComp"].isnull(), "WhiteIsComp"
@@ -66,18 +64,19 @@ def prefilterGames(df, plymin, plymax, human_color):
 @click.option(
     "--input-paths", help="filenames of input files, separated by comma", required=True
 )
+@click.option("--params-path", help="path to config file", required=True)
 @click.option("--output-path", help="where to save result (as parquet)", required=True)
 @click.option(
     "--human-color", help="Black or White, what was the human playing", required=True
 )
-@click.option("--plymin", help="min number of half moves", required=True, type=int)
-@click.option("--plymax", help="max number of half moves", required=True, type=int)
-def main(input_paths, output_path, plymin, plymax, human_color):
+def main(input_paths, output_path, params_path, human_color):
+    with open(params_path) as f:
+        params = json.load(f)
     file_list = input_paths.split(",")
     n_files = len(file_list)
     LOGGER.info("found {} files".format(n_files))
     df = loadData(file_list)
-    df = prefilterGames(df, plymin, plymax, human_color)
+    df = prefilterGames(df, params, human_color)
 
     LOGGER.info("number of games after preprocessing: {}".format(df.shape[0]))
     df.to_parquet(output_path)
