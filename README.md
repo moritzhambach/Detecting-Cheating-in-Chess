@@ -9,6 +9,9 @@ clone repo, then from root of project: `conda create -f environment.yml` , `acti
 ### train with your own data
 * get pgn data, put it into folders data/raw_data/<2019 or whatever year>, then run `dvc repro dvc-stages/train_CNN_LSTM_black_human.dvc`. Might take a while for a lot of data.
 
+### reproducibility
+* I use data versioning control (https://dvc.org/) for a reproducible pipeline from data ingestion to preprocessing and training.
+
 ## Why is cheating even a problem
 Online chess suffers from the problem that the opponent could easily enter the moves into a chess engine on their smartphone and win easily.
 Chess websites try to detect this by running an engine theirselves and comparing the moves played to the suggestions. Sophisticated cheaters could circumvent this by randomly choosing moves that are further down the list of sugestion list, or play a bad move once in a while, since they will win anyways. Also, with new chess engines based on neural networks (like Deepminds "Alpha Zero" or open source "Leela Chess Zero"), the comparison of chess moves might need to be done for several engines. Another try to catch cheaters currently is to analyze timing between moves, but future engines could not require much time to calculate and the "natural" waiting times can be added to fool the detection tool.
