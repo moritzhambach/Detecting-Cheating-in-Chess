@@ -26,7 +26,7 @@ LOGGER = logging.getLogger()
 
 
 def scaleAndSplit(data, labels):
-    data = data - np.mean(data)
+    # data = data - np.mean(data) # not needed?
     X_train, X_test, y_train, y_test = train_test_split(
         data, labels, test_size=0.2, random_state=42
     )
@@ -36,13 +36,22 @@ def scaleAndSplit(data, labels):
     return X_train, X_test, y_train, y_test
 
 
-def buildModel(num_filters=10, num_Dense=100, drop_rate=0.5, reg=None):
+def buildModel(
+    num_input_channels=24,
+    num_timesteps=20,
+    num_filters=20,
+    num_Dense=200,
+    drop_rate=0.0,
+    reg=None,
+):
     kernel_size = (3, 3, 3)
     num_classes = 2
     ac = "relu"
     opt = Adam(lr=0.001, decay=0, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 
-    inp = Input((20, 12, 8, 8))  # timesteps, channels, rows, columns
+    inp = Input(
+        (num_timesteps, num_input_channels, 8, 8)
+    )  # timesteps, channels, rows, columns
     permuted = Permute((1, 3, 4, 2))(inp)  # expects channels_last
     conv1 = Conv3D(
         num_filters, kernel_size, activation=ac, kernel_regularizer=reg, padding="valid"
@@ -53,7 +62,10 @@ def buildModel(num_filters=10, num_Dense=100, drop_rate=0.5, reg=None):
     conv3 = Conv3D(
         num_filters, kernel_size, activation=ac, kernel_regularizer=reg, padding="valid"
     )(conv2)
-    flat = Flatten()(conv3)
+    conv4 = Conv3D(
+        num_filters, kernel_size, activation=ac, kernel_regularizer=reg, padding="valid"
+    )(conv3)
+    flat = Flatten()(conv4)
     dense = Dense(num_Dense)(flat)
     dropout = Dropout(drop_rate)(dense)
     out = Dense(num_classes, activation="softmax")(dropout)
@@ -67,27 +79,39 @@ def buildModel(num_filters=10, num_Dense=100, drop_rate=0.5, reg=None):
 
 
 def trainModel(model, X_train, y_train, X_test, y_test):
-    early_stopping = EarlyStopping(monitor="val_loss", patience=2)
+    # early_stopping = EarlyStopping(monitor="val_loss", patience=3)
+    # early_stopping = EarlyStopping(monitor="loss", patience=3)
+
     hist = model.fit(
         X_train,
         y_train,
         batch_size=128,
         epochs=20,
         validation_data=(X_test, y_test),
-        callbacks=[early_stopping,],
+        # callbacks=[early_stopping,],
     )
 
 
 @click.command()
-@click.option("--input-path", help="input array of training data", required=True)
+@click.option(
+    "--input-path", help="input array of training data (piece positions)", required=True
+)
+@click.option(
+    "--input-path-attacks",
+    help="input array of training data (attacked squares)",
+    required=True,
+)
 @click.option("--input-path-labels", help="input array of labels", required=True)
 @click.option("--output-path", help="where to save the model", required=True)
-def main(input_path, input_path_labels, output_path):
-    data = np.load(input_path)["arr_0"]
+def main(input_path, input_path_labels, input_path_attacks, output_path):
+    # data dims: (samples, time, channel, row, col)
+    data_positions = np.load(input_path)["arr_0"]
+    data_attacks = np.load(input_path_attacks)["arr_0"]
+    data = np.concatenate((data_positions, data_attacks), axis=2)
     labels = np.load(input_path_labels)["arr_0"]
     LOGGER.info(f"Training Conv3D model on data of shape {data.shape}")
 
-    model = buildModel()
+    model = buildModel(num_input_channels=data.shape[2], num_timesteps=data.shape[1])
 
     X_train, X_test, y_train, y_test = scaleAndSplit(data, labels)
     trainModel(model, X_train, y_train, X_test, y_test)
