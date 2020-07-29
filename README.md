@@ -2,12 +2,12 @@
 Can chess engine use be detected just from the moves on the board? Let's try it out, using a CNN - LSTM architecture and other architectures (but no chess engine).
 ## Usage
 ### installation
-clone repo, then from root of project: ´conda create -f environment.yml´ , ´activate chess-classifier´
+clone repo, then from root of project: `conda create -f environment.yml` , `activate chess-classifier`
 ### classify a game
 * get the pgn notation, save it under data/raw_data/evaluation/eval.pgn
-* run 'dvc repro dvc-stages/eval_moves_to_fen.dvc && python python_code/make_prediction.py --human-player-color White' (or Black if you were playing black pieces)
+* run `dvc repro dvc-stages/eval_moves_to_fen.dvc && python python_code/make_prediction.py --human-player-color White` (or Black if you were playing black pieces)
 ### train with your own data
-* get pgn data, put it into folders data/raw_data/<2019 or whatever year>, then run 'dvc repro dvc-stages/train_CNN_LSTM_black_human.dvc'.  Check that  Might take a while for a lot of data.
+* get pgn data, put it into folders data/raw_data/<2019 or whatever year>, then run `dvc repro dvc-stages/train_CNN_LSTM_black_human.dvc`.  Check that  Might take a while for a lot of data.
 
 ## Why is cheating even a problem
 Online chess suffers from the problem that the opponent could easily enter the moves into a chess engine on their smartphone and win easily.
