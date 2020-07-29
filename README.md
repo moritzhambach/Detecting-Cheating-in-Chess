@@ -1,5 +1,5 @@
 # Detecting-Cheating-in-Chess
-Can chess engine use be detected just from the moves on the board? Let's try it out, using a CNN - LSTM architecture and other architectures (but no chess engine).
+Can chess engine use be detected just from the moves on the board (but no chess engine)? Let's try it out, using a CNN - LSTM architecture and other architectures.
 ## Usage
 ### installation
 clone repo, then from root of project: `conda create -f environment.yml` , `activate chess-classifier`
