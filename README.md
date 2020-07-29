@@ -28,7 +28,7 @@ a type called Long-Short-Term Memory (LSTM). But let's start from the beginning:
 
 millions of chess games are easily available online, and are usually labeled whether a computer or human played each side. I dowloaded close to 1 million games from https://www.ficsgames.org/ . The data comes in pgn format, which I first convert into JSON (using https://github.com/Assios/pgn-to-json ) and then read into pandas dataframe for preprocessing. The moves themselves are converted into board states (with help of https://github.com/niklasf/python-chess), meaning (channel x 8 x 8) arrays of 1s and 0s, where a 1 means a piece exists at this position, and the channel determines the piece type (white knight, black Queen, etc). As there are 6 pieces per color (pawns, knights, bishops, rooks, Queen, King), we have 12 channels. The board state per move is then stacked onto each other to create a tensor of shape (time, channel, 8, 8 ) for each game. I also get another 12 channels with the fields that each piece can currently attack, although this does not seem to help too much.
 
-## Preprocessing, visualisation as heatmaps
+## Preprocessing
 
 1.) only take games where the human player lost (who cares about engines if you at least draw)
 2.) opponent is 50/50 human or computer
