@@ -2,4 +2,4 @@
 /model_conv3D_black_human.h5
 /LSTM_model_black_human.h5
 /FC_LSTM_model_black_human.h5
-/best_model_black_human.h5
+/LSTM_model_white_human.h5

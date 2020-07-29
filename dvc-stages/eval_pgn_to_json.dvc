@@ -1,14 +1,14 @@
-md5: 88c9031584405dbf3f0c5e8c51cfe387
+md5: d03444e1df9981768b18aa5e38151953
 cmd: python python_code/pgn_to_json.py data/raw_data/evaluation/ data/raw_data/json/evaluation/
   1
 wdir: ..
 deps:
-- md5: 5fc5505ea9789ee9217dfac6b4220d21.dir
+- md5: 88757bbf6a1f88c90784efd1509696bf.dir
   path: data/raw_data/evaluation
 - md5: 8fb0a3a2f55cab1d4c96432badc31a1c
   path: python_code/pgn_to_json.py
 outs:
-- md5: 347779d4ba63928372810946fa3372e5
+- md5: 6e4c0894a24382bfb3d70825f18f4a18
   path: data/raw_data/json/evaluation/eval.json
   cache: true
   metric: false
