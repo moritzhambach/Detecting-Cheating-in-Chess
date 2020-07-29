@@ -2,7 +2,7 @@
 Can chess engine use be detected just from the moves on the board? Let's try it out, using a CNN - LSTM architecture and other architectures (but no chess engine).
 ## Usage
 ### installation
-clone repo, then from root of project: 'conda create -f environment.yml' , 'activate chess-classifier'
+clone repo, then from root of project: ´conda create -f environment.yml´ , ´activate chess-classifier´
 ### classify a game
 * get the pgn notation, save it under data/raw_data/evaluation/eval.pgn
 * run 'dvc repro dvc-stages/eval_moves_to_fen.dvc && python python_code/make_prediction.py --human-player-color White' (or Black if you were playing black pieces)
