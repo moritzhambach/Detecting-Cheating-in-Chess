@@ -1,0 +1,15 @@
+md5: d78705e2289b88a8e5f375e8697bd618
+cmd: python python_code/eval_get_moves.py --input-path data/raw_data/json/evaluation/eval.json
+  --output-path data/preprocessed/eval.parquet
+wdir: ..
+deps:
+- md5: 6e4c0894a24382bfb3d70825f18f4a18
+  path: data/raw_data/json/evaluation/eval.json
+- md5: ecf426d8c33067e8bb6b6e0c086d81cd
+  path: python_code/eval_get_moves.py
+outs:
+- md5: e95868f5758d9067cc38429447f6da04
+  path: data/preprocessed/eval.parquet
+  cache: true
+  metric: false
+  persist: false

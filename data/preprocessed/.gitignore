@@ -1,0 +1,14 @@
+/games.parquet
+/games_black_human.parquet
+/games_white_human.parquet
+/fen_white_human.npy
+/fen_black_human.npy.npz
+/fen_white_human.npy.npz
+/fen_black_human_labels.npy.npz
+/fen_white_human_labels.npy.npz
+/fen_black_human_attacks.npy.npz
+/fen_white_human_attacks.npy.npz
+/eval.parquet
+/fen_eval_attacks.npy.npz
+/fen_eval_labels.npy.npz
+/fen_eval.npy.npz
