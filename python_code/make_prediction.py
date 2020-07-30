@@ -67,7 +67,7 @@ def checkParameters(df, human_color, params):
     default="data/models/best_model_white_human.h5",
 )
 @click.option(
-    "--params-path", required=True, default="data/configs/preprocess_params.json",
+    "--params-path", required=True, default="configs/preprocess_params.json",
 )
 @click.option(
     "--path-json-data", required=True, default="data/raw_data/json/evaluation/eval.json"

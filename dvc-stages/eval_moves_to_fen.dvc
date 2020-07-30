@@ -1,16 +1,16 @@
-md5: fadbaebaf93f44aa78a6fef53f071610
+md5: e6b363097e002fc5a3fc111c95b906eb
 cmd: python python_code/moves_to_fen.py --input-path data/preprocessed/eval.parquet
-  --params-path data/configs/preprocess_params.json --output-path data/preprocessed/fen_eval.npy.npz
+  --params-path configs/preprocess_params.json --output-path data/preprocessed/fen_eval.npy.npz
   --output-path-labels data/preprocessed/fen_eval_labels.npy.npz --output-path-attacks
   data/preprocessed/fen_eval_attacks.npy.npz
 wdir: ..
 deps:
 - md5: e95868f5758d9067cc38429447f6da04
   path: data/preprocessed/eval.parquet
-- md5: 2f75c5b8fbfe2f411ccf1310201d669b
+- md5: fe8b2c3497df52f1bccfa478744f551a
   path: python_code/moves_to_fen.py
 - md5: c3f100f339d669cc08267f7143d33ada
-  path: data/configs/preprocess_params.json
+  path: configs/preprocess_params.json
 outs:
 - md5: d2d7cc3a5b9b854a1bf64e214c35839c
   path: data/preprocessed/fen_eval_attacks.npy.npz

@@ -1,12 +1,12 @@
-md5: d24031db2905c67b60d0005d6e0940bb
+md5: d650934c79e7dcbd5c13b861f8b4e003
 cmd: python python_code/moves_to_fen.py --input-path data/preprocessed/games_black_human.parquet
   --output-path data/preprocessed/fen_black_human.npy.npz --output-path-labels data/preprocessed/fen_black_human_labels.npy.npz
   --output-path-attacks data/preprocessed/fen_black_human_attacks.npy.npz --params-path
-  data/configs/preprocess_params.json
+  configs/preprocess_params.json
 wdir: ..
 deps:
 - md5: c3f100f339d669cc08267f7143d33ada
-  path: data/configs/preprocess_params.json
+  path: configs/preprocess_params.json
 - md5: ff6bca4ddb76453a3aa2018cf1cf8594
   path: data/preprocessed/games_black_human.parquet
 - md5: fe8b2c3497df52f1bccfa478744f551a
