@@ -122,6 +122,30 @@ def getFenPerChannel(input_array):
     return res.astype(int)
 
 
+def getArrayLists(df, min_ply, max_ply):
+    resList = []
+    labelList = []
+    attacksList = []
+    for moveList, label in tqdm(zip(df["moves"], df["opponentIsComp"])):
+        # loop over games, TODO: optimize
+        fenList = movesToFenList(moveList)
+        failCounter = 0
+        if not fenList:
+            failCounter += 1
+            continue
+        fenList = fenList[min_ply:max_ply]  # only keep positions of the middle game!
+        fenArray = fenList_to_fenArray(fenList)
+        fen_per_channel = getFenPerChannel(fenArray)
+        attacksTensor = getAttacksTensorOverTime(fenList)
+
+        if np.count_nonzero(fen_per_channel) > 0:
+            resList.append(fen_per_channel)
+            labelList.append(label)
+            attacksList.append(attacksTensor)
+    LOGGER.info(f"failed games: {failCounter}")
+    return resList, labelList, attacksList
+
+
 @click.command()
 @click.option(
     "--input-path", help="expects parquet file", required=True, type=click.Path()
@@ -140,31 +164,10 @@ def main(
     df = pd.read_parquet(input_path)
     with open(params_path) as f:
         params = json.load(f)
-    min_ply_to_consider = params["plymin"]
-    max_ply_to_consider = params["plymax"]
 
-    resList = []
-    labelList = []
-    attacksList = []
-    for moveList, label in tqdm(zip(df["moves"], df["opponentIsComp"])):
-        # loop over games, TODO: optimize
-        fenList = movesToFenList(moveList)
-        failCounter = 0
-        if not fenList:
-            failCounter += 1
-            continue
-        fenList = fenList[
-            min_ply_to_consider:max_ply_to_consider
-        ]  # only keep positions of the middle game!
-        fenArray = fenList_to_fenArray(fenList)
-        fen_per_channel = getFenPerChannel(fenArray)
-        attacksTensor = getAttacksTensorOverTime(fenList)
-
-        if np.count_nonzero(fen_per_channel) > 0:
-            resList.append(fen_per_channel)
-            labelList.append(label)
-            attacksList.append(attacksTensor)
-    LOGGER.info(f"failed games: {failCounter}")
+    resList, labelList, attacksList = getArrayLists(
+        df, params["plymin"], params["plymax"]
+    )
     res = np.stack(resList, axis=0).astype(int)
     labels = np.array(labelList).astype(int)
     attacks = np.stack(attacksList, axis=0).astype(int)
