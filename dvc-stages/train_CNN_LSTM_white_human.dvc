@@ -1,7 +1,7 @@
-md5: 89589eb63657e75953e60a61b6409ff1
+md5: 02e4a42412390dd2defcdf3522e5f88a
 cmd: python python_code/train_CNN_LSTM.py --input-path data/preprocessed/fen_white_human.npy.npz
   --input-path-labels data/preprocessed/fen_white_human_labels.npy.npz --output-path
-  data/models/LSTM_model_white_human.h5 --input-path-attacks data/preprocessed/fen_white_human_attacks.npy.npz
+  models/LSTM_model_white_human.h5 --input-path-attacks data/preprocessed/fen_white_human_attacks.npy.npz
 wdir: ..
 deps:
 - md5: 84c9becedfe8cfbce87a10d59bc1fc53
@@ -14,7 +14,7 @@ deps:
   path: python_code/train_CNN_LSTM.py
 outs:
 - md5: 9ec511d539d37d4ce1b94012dd477265
-  path: data/models/LSTM_model_white_human.h5
+  path: models/LSTM_model_white_human.h5
   cache: true
   metric: false
   persist: false

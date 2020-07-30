@@ -1,7 +1,7 @@
 md5: df3b33fc23cb8daa97b7185bc7bcfed3
 cmd: python python_code/train_conv3D.py --input-path data/preprocessed/fen_black_human.npy.npz
   --input-path-labels data/preprocessed/fen_black_human_labels.npy.npz --input-path-attacks
-  data/preprocessed/fen_black_human_attacks.npy.npz --output-path data/models/model_conv3D_black_human.h5
+  data/preprocessed/fen_black_human_attacks.npy.npz --output-path models/model_conv3D_black_human.h5
 wdir: ..
 deps:
 - md5: 755e3d09f7a96762c1e09cb051998b9e
@@ -14,7 +14,7 @@ deps:
   path: python_code/train_conv3D.py
 outs:
 - md5: 1824bd38e2438edfc9b8852ed0f21583
-  path: data/models/model_conv3D_black_human.h5
+  path: models/model_conv3D_black_human.h5
   cache: true
   metric: false
   persist: false

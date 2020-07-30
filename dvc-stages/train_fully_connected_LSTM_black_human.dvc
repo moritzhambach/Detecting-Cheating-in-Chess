@@ -1,7 +1,7 @@
-md5: c6db99294341baaf18132232da114d99
+md5: b6fe1b85a0ce42fe96296eb35744300d
 cmd: python python_code/train_Fully_Connected_LSTM.py --input-path data/preprocessed/fen_black_human.npy.npz
   --input-path-labels data/preprocessed/fen_black_human_labels.npy.npz --output-path
-  data/models/FC_LSTM_model_black_human.h5 --input-path-attacks data/preprocessed/fen_black_human_attacks.npy.npz
+  models/FC_LSTM_model_black_human.h5 --input-path-attacks data/preprocessed/fen_black_human_attacks.npy.npz
 wdir: ..
 deps:
 - md5: 01aafc5a798af0d8a30cb7bae8f05337
@@ -14,7 +14,7 @@ deps:
   path: python_code/train_Fully_Connected_LSTM.py
 outs:
 - md5: a4ad8d470dc252492bb51590d838f4f1
-  path: data/models/FC_LSTM_model_black_human.h5
+  path: models/FC_LSTM_model_black_human.h5
   cache: true
   metric: false
   persist: false

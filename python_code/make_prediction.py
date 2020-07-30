@@ -58,16 +58,16 @@ def checkParameters(df, human_color, params):
     "--input-path-model-black",
     help="path to load best model, if human played black",
     required=True,
-    default="data/models/best_model_black_human.h5",
+    default="models/best_model_black_human.h5",
 )
 @click.option(
     "--input-path-model-white",
     help="path to load best model, if human played white",
     required=True,
-    default="data/models/best_model_white_human.h5",
+    default="models/best_model_white_human.h5",
 )
 @click.option(
-    "--params-path", required=True, default="data/configs/preprocess_params.json",
+    "--params-path", required=True, default="configs/preprocess_params.json",
 )
 @click.option(
     "--path-json-data", required=True, default="data/raw_data/json/evaluation/eval.json"
