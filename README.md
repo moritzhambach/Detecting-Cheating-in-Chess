@@ -7,7 +7,7 @@ clone repo, then from root of project: `conda create -f environment.yml` , `acti
 * get the pgn notation, save it under data/raw_data/evaluation/eval.pgn
 * run `dvc repro dvc-stages/eval_moves_to_fen.dvc && python python_code/make_prediction.py --human-player-color White` (or Black if you were playing black pieces)
 ### train with your own data
-* get pgn data, put it into folders data/raw_data/<year>, make sure the preprocess stages have the correct input path variable, then run `dvc repro dvc-stages/train_CNN_LSTM_black_human.dvc`. Might take a while for a lot of data. If happy with the results, put trained model into data/models/best_model_black_human.h5 (or white), and start predicting.
+* get pgn data, put it into folders data/raw_data/<year>, make sure the preprocess stages have the correct input path variable, then run `dvc repro dvc-stages/train_CNN_LSTM_black_human.dvc`. Might take a while for a lot of data. If happy with the results, put trained model into models/best_model_black_human.h5 (or white), and start predicting.
 
 ### reproducibility
 * I use data versioning control (https://dvc.org/) for a reproducible pipeline from data ingestion to preprocessing and training.
