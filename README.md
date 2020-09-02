@@ -1,5 +1,15 @@
 # Detecting-Cheating-in-Chess
 Can chess engine use be detected just from the moves on the board (but no chess engine)? Let's try it out, using a CNN - LSTM architecture and other architectures.
+- [Usage](#Usage)
+- [Why is cheating in chess hard to detect](#Why-is-cheating-in-chess-hard-to-detect)
+- [Getting the data](#Getting-the-data)
+- [Preprocessing](#Preprocessing)
+- [Visualisation as heatmaps](#Visualisation-as-heatmaps)
+- [CNN LSTM](#CNN-LSTM)
+
+
+
+
 ## Usage
 ### installation
 clone repo, then from root of project: `conda create -f environment.yml` , `activate chess-classifier`
@@ -48,7 +58,8 @@ black pawns, black is human:
 ![alt text](https://user-images.githubusercontent.com/33765868/43685394-8e200774-98b2-11e8-88b6-e95bfd5b7ade.png)
 
 
-## CNN LSTM (work in progress)
+## CNN LSTM
+(work in progress)
 Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my network. The (channelx8x8) maps of each time step fist undergo 3 convolutional layers of kernel size 3x3 without padding, reducing the size to (filter x 2 x 2), are then flattened and fed into LSTM neurons, followed by a Dense (fully connected layer). The currently best result is 80% accuracy, see below. It is still overfitting, although dropout is applied. Will add more data soon.
 
 ![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
