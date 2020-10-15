@@ -63,3 +63,6 @@ black pawns, black is human:
 Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my network. The (channelx8x8) maps of each time step fist undergo 3 convolutional layers of kernel size 3x3 without padding, reducing the size to (filter x 2 x 2), are then flattened and fed into LSTM neurons, followed by a Dense (fully connected layer). The currently best result is 80% accuracy, see below. It is still overfitting, although dropout is applied. Will add more data soon.
 
 ![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
+
+## Transformers to the rescue?!
+with recent applications of Transformers (originally used in NLP) to images, see ![alt text](https://openreview.net/pdf?id=YicbFdNTTy), maybe this might be of great use here. After all, when a human looks at a chess board, we don't look at all pieces and squares equally, but focus our attention (!) on the ones relevant for tactics etc. I will try it out, stay tuned!
