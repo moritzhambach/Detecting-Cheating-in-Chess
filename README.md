@@ -65,4 +65,4 @@ Using the TimeDistributed wrapper on Conv2D layers allows easy setup of my netwo
 ![alt text](https://user-images.githubusercontent.com/33765868/43685326-382504ce-98b1-11e8-8564-a89dd4d4c57a.png)
 
 ## Transformers to the rescue?!
-with recent applications of Transformers (originally used in NLP) to images, see https://openreview.net/pdf?id=YicbFdNTTy, maybe this might be of great use here. After all, when a human looks at a chess board, we don't look at all pieces and squares equally, but focus our attention (!) on the ones relevant for tactics etc. I will try it out, stay tuned!
+with recent applications of Transformers (originally used in NLP) to images, see https://paperswithcode.com/paper/an-image-is-worth-16x16-words-transformers, maybe this might be of great use here. After all, when a human looks at a chess board, we don't look at all pieces and squares equally, but focus our attention (!) on the ones relevant for tactics etc. I will try it out, stay tuned!
